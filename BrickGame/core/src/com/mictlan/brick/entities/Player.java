@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.mictlan.brick.utils.ColorFactory;
 
-public class Player {
+public class Player extends GameObject {
     private int width = 192;
     private int height = 32;
     private int x = 0;
@@ -23,11 +23,6 @@ public class Player {
         this.y = y;
         hitbox = new Rectangle();
         color = ColorFactory.getColor(78, 32, 9);
-    }
-
-    public void render(ShapeRenderer srenderer) {
-        srenderer.setColor(color);
-        srenderer.rect(x, y, width, height);
     }
 
     public void update() {
@@ -53,5 +48,30 @@ public class Player {
             x = 800 - width;
         }
 
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public Color getColor() {
+        return color;
     }
 }

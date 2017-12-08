@@ -5,9 +5,6 @@ import com.mictlan.brick.entities.Brick;
 
 import java.util.ArrayList;
 
-/**
- * Created by josel.garza on 22/11/2017.
- */
 public class BrickController {
     int numberOfBricks = 15;
     int rows = 5;
@@ -34,7 +31,7 @@ public class BrickController {
 
     public void render(ShapeRenderer srenderer){
         for (Brick brick: bricks){
-            brick.render(srenderer);
+            brick.render(srenderer, brick);
         }
     }
 

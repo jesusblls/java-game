@@ -43,9 +43,9 @@ public class GameScreen implements Screen {
 
         game.getSrenderer().begin(ShapeType.Filled);
 
-        player.render(game.getSrenderer());
+        player.render(game.getSrenderer(), player);
         brickController.render(game.getSrenderer());
-        ball.render(game.getSrenderer());
+        ball.render(game.getSrenderer(), ball);
 
         game.getSrenderer().end();
 

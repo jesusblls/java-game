@@ -1,11 +1,9 @@
 package com.mictlan.brick.entities;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-/**
- * Created by josel.garza on 22/11/2017.
- */
 public abstract class GameObject {
     private int x;
     private int y;
@@ -13,10 +11,9 @@ public abstract class GameObject {
     private int height;
     private Color color;
 
-    public void render(ShapeRenderer srenderer) {
-        srenderer.setColor(color);
-        srenderer.rect(x, y, width, height);
-
+    public void render(ShapeRenderer srenderer, GameObject gobject) {
+        srenderer.setColor(gobject.getColor());
+        srenderer.rect(gobject.getX(), gobject.getY(), gobject.getWidth(), gobject.getHeight());
     }
 
     public abstract void update();

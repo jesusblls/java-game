@@ -2,19 +2,12 @@ package com.mictlan.brick.entities;
 
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.mictlan.brick.utils.ColorFactory;
 
-/**
- * Created by josel.garza on 22/11/2017.
- */
 public class Brick extends GameObject {
     private int x = 0;
     private int y = 0;
-
-
-
     private int width = 50;
     private int height = 30;
     private Color  color;
@@ -27,9 +20,30 @@ public class Brick extends GameObject {
         color = ColorFactory.getColor(244, 244, 244);
     }
 
-
-
+    @Override
     public void update (){
 
+    }
+
+    @Override
+    public Color getColor() {
+        return color;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
