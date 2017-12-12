@@ -22,6 +22,10 @@ public class Player extends GameObject {
         this.x = x;
         this.y = y;
         hitbox = new Rectangle();
+        hitbox.width = 192;
+        hitbox.height = 32;
+        hitbox.x = 0;
+        hitbox.y = 0;
         color = ColorFactory.getColor(78, 32, 9);
     }
 
@@ -48,6 +52,9 @@ public class Player extends GameObject {
             x = 800 - width;
         }
 
+        hitbox.x = x;
+        hitbox.y = y;
+
     }
 
     @Override
@@ -73,5 +80,9 @@ public class Player extends GameObject {
     @Override
     public Color getColor() {
         return color;
+    }
+
+    public Rectangle getHitbox() {
+        return hitbox;
     }
 }

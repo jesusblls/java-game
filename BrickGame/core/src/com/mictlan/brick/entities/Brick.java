@@ -10,19 +10,25 @@ public class Brick extends GameObject {
     private int y = 0;
     private int width = 50;
     private int height = 30;
-    private Color  color;
+    private Color color;
     private Rectangle hitbox;
 
-    public Brick (int x, int y) {
+    public Brick(int x, int y) {
         this.x = x;
         this.y = y;
         hitbox = new Rectangle();
+        hitbox.width = 50;
+        hitbox.height = 30;
+        hitbox.x = x;
+        hitbox.y = y;
         color = ColorFactory.getColor(244, 244, 244);
+
     }
 
     @Override
-    public void update (){
-
+    public void update() {
+        hitbox.x = x;
+        hitbox.y = y;
     }
 
     @Override
@@ -45,5 +51,9 @@ public class Brick extends GameObject {
 
     public int getY() {
         return y;
+    }
+
+    public Rectangle getHitbox() {
+        return hitbox;
     }
 }

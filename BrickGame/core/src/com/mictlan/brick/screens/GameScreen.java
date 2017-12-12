@@ -7,9 +7,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mictlan.brick.BrickGame;
 import com.mictlan.brick.controllers.BrickController;
-
+import com.badlogic.gdx.math.Rectangle;
 import com.mictlan.brick.entities.Ball;
 import com.mictlan.brick.entities.Player;
+import com.mictlan.brick.entities.Brick;
 
 public class GameScreen implements Screen {
     private final BrickGame game;
@@ -18,6 +19,7 @@ public class GameScreen implements Screen {
     private Player player;
     private BrickController brickController;
     private Ball ball;
+    private Brick brick;
 
     public GameScreen(final BrickGame game) {
         this.game = game;
@@ -25,8 +27,9 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
         player = new Player(0, 0);
+        brick = new Brick(0, 0);
         brickController = new BrickController();
-        ball = new Ball(0, 0);
+        ball = new Ball(150, 300, player, brickController);
     }
 
     @Override
@@ -48,6 +51,7 @@ public class GameScreen implements Screen {
         ball.render(game.getSrenderer(), ball);
 
         game.getSrenderer().end();
+
 
 
         player.update();
@@ -80,6 +84,8 @@ public class GameScreen implements Screen {
     public void dispose() {
 
     }
+
+
 
     public OrthographicCamera getCamera() {
         return camera;

@@ -11,7 +11,7 @@ public class BrickController {
     int gap = 3;
     ArrayList<Brick> bricks;
 
-    public BrickController(){
+    public BrickController() {
         bricks = new ArrayList<Brick>();
         int iniX = 4;
         int iniY = 445;
@@ -29,10 +29,13 @@ public class BrickController {
 
     }
 
-    public void render(ShapeRenderer srenderer){
-        for (Brick brick: bricks){
+    public void render(ShapeRenderer srenderer) {
+        for (Brick brick : bricks) {
             brick.render(srenderer, brick);
         }
     }
 
+    public ArrayList<Brick> getBricks() {
+        return bricks;
+    }
 }
