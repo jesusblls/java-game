@@ -10,6 +10,7 @@ public class Brick extends GameObject {
     private int y = 0;
     private int width = 50;
     private int height = 30;
+    private int points = 100;
     private Color color;
     private Rectangle hitbox;
 

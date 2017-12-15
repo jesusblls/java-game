@@ -4,8 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.mictlan.brick.utils.ColorFactory;
-import com.mictlan.brick.entities.Player;
 import com.mictlan.brick.controllers.BrickController;
+
+import java.util.Iterator;
 
 
 public class Ball extends GameObject {
@@ -15,6 +16,7 @@ public class Ball extends GameObject {
     private int height = 32;
     private int velX = 200;
     private int velY = 200;
+    private boolean isColliding = false;
     private Rectangle hitbox;
     private Player player;
     private BrickController brickcontroller;
@@ -58,6 +60,7 @@ public class Ball extends GameObject {
 
 
         if (player.getHitbox().overlaps(this.hitbox)) {
+            System.out.println("COLITION");
             y = player.getY() + player.getHeight();
             velY *= -1;
         }
@@ -65,13 +68,21 @@ public class Ball extends GameObject {
         hitbox.x = x;
         hitbox.y = y;
 
-        for (Brick brick : brickcontroller.getBricks()){
+        Iterator<Brick> iter = brickcontroller.getBricks().iterator();
+        while(iter.hasNext()) {
+            Brick brick = iter.next();
             if (brick.getHitbox().overlaps(this.hitbox)){
-                System.out.println(brick.getHitbox().x);
+                System.out.println("COLITION");
+                y = brick.getY() - brick.getHeight() - 10;
+                if(!isColliding) {
+                    velY *= -1;
+                    isColliding = true;
+                }
+                iter.remove();
+            } else {
+                isColliding = false;
             }
-
         }
-
     }
 
     @Override

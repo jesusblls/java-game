@@ -29,7 +29,7 @@ public class GameScreen implements Screen {
         player = new Player(0, 0);
         brick = new Brick(0, 0);
         brickController = new BrickController();
-        ball = new Ball(150, 300, player, brickController);
+        ball = new Ball(150, 100, player, brickController);
     }
 
     @Override
