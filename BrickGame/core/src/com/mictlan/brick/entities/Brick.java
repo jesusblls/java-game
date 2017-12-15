@@ -57,4 +57,8 @@ public class Brick extends GameObject {
     public Rectangle getHitbox() {
         return hitbox;
     }
+
+    public int getPoints() {
+        return points;
+    }
 }

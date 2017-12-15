@@ -1,10 +1,12 @@
 package com.mictlan.brick.entities;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.mictlan.brick.utils.ColorFactory;
 import com.mictlan.brick.controllers.BrickController;
+import com.mictlan.brick.controllers.ScoreController;
 
 import java.util.Iterator;
 
@@ -21,8 +23,9 @@ public class Ball extends GameObject {
     private Player player;
     private BrickController brickcontroller;
     Color color;
+    private ScoreController scorecontroller;
 
-    public Ball(int x, int y, Player player, BrickController brickcontroller) {
+    public Ball(int x, int y, Player player, BrickController brickcontroller, ScoreController scorecontroller) {
         this.x = x;
         this.y = y;
         color = ColorFactory.getColor(244, 244, 244);
@@ -33,7 +36,7 @@ public class Ball extends GameObject {
         hitbox.y = y;
         this.player = player;
         this.brickcontroller = brickcontroller;
-
+        this.scorecontroller = scorecontroller;
     }
 
 
@@ -73,12 +76,21 @@ public class Ball extends GameObject {
             Brick brick = iter.next();
             if (brick.getHitbox().overlaps(this.hitbox)){
                 System.out.println("COLITION");
-                y = brick.getY() - brick.getHeight() - 10;
                 if(!isColliding) {
-                    velY *= -1;
+                    int so = (y - brick.getHeight() - height);
+                    int bo = (x - brick.getWidth() - width);
+                    if( so > bo ){
+                        velX *= -1;
+                    }
+                    if (bo > so){
+                        y = brick.getY() - brick.getHeight();
+                        velY *= -1;
+
+                    }
                     isColliding = true;
                 }
                 iter.remove();
+                scorecontroller.addPoints(brick.getPoints());
             } else {
                 isColliding = false;
             }

@@ -6,15 +6,15 @@ import com.mictlan.brick.entities.Brick;
 import java.util.ArrayList;
 
 public class BrickController {
-    int numberOfBricks = 15;
+    int numberOfBricks = 13;
     int rows = 5;
     int gap = 3;
     ArrayList<Brick> bricks;
 
     public BrickController() {
         bricks = new ArrayList<Brick>();
-        int iniX = 4;
-        int iniY = 445;
+        int iniX = 54;
+        int iniY = 395;
         Brick brick = null;
 
         for (int x = 0; x < rows; x++) {
@@ -24,7 +24,7 @@ public class BrickController {
                 iniX += brick.getWidth() + gap;
             }
             iniY -= (brick.getHeight() + gap);
-            iniX = 4;
+            iniX = 54;
         }
 
     }
