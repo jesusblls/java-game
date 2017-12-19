@@ -39,12 +39,43 @@ public class Ball extends GameObject {
         this.scorecontroller = scorecontroller;
     }
 
+    public void moveOnX() {
+        x += velX * Gdx.graphics.getDeltaTime();
+        hitbox.x = x;
+    }
+
+    public void moveOnY() {
+        y -= velY * Gdx.graphics.getDeltaTime();
+        hitbox.y = y;
+    }
 
     public void update() {
 
+        moveOnX();
+        // Brick Collision on X
+        Iterator<Brick> iter = brickcontroller.getBricks().iterator();
+        while(iter.hasNext() && !isColliding) {
+            Brick brick = iter.next();
+            if (this.hitbox.overlaps(brick.getHitbox())) {
+                isColliding = true;
+                iter.remove();
+                velX *= -1;
+            }
+        }
+        isColliding = false;
 
-        x += velX * Gdx.graphics.getDeltaTime();
-        y -= velY * Gdx.graphics.getDeltaTime();
+        moveOnY();
+        // Brick Collision on Y
+        iter = brickcontroller.getBricks().iterator();
+        while(iter.hasNext() && !isColliding) {
+            Brick brick = iter.next();
+            if (this.hitbox.overlaps(brick.getHitbox())) {
+                isColliding = true;
+                iter.remove();
+                velY *= -1;
+            }
+        }
+        isColliding = false;
 
         if (x < 0) {
             velX *= -1;
@@ -61,38 +92,11 @@ public class Ball extends GameObject {
 
         }
 
-
+        // Player Collision
         if (player.getHitbox().overlaps(this.hitbox)) {
             System.out.println("COLITION");
             y = player.getY() + player.getHeight();
             velY *= -1;
-        }
-
-        hitbox.x = x;
-        hitbox.y = y;
-
-        Iterator<Brick> iter = brickcontroller.getBricks().iterator();
-        while(iter.hasNext()) {
-            Brick brick = iter.next();
-            if (brick.getHitbox().overlaps(this.hitbox)){
-                System.out.println("COLITION");
-                if(!isColliding) {
-                    int so = (y - brick.getHeight() - height);
-                    int bo = (x - brick.getWidth() - width);
-                    if( so > bo ){
-                        velX *= -1;
-                    }
-                    if (bo > so){
-                        y = brick.getY() - brick.getHeight();
-                        velY *= -1;
-                    }
-                    isColliding = true;
-                }
-                iter.remove();
-                scorecontroller.addPoints(brick.getPoints());
-            } else {
-                isColliding = false;
-            }
         }
     }
 
