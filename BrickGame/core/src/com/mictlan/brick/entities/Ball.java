@@ -85,7 +85,6 @@ public class Ball extends GameObject {
                     if (bo > so){
                         y = brick.getY() - brick.getHeight();
                         velY *= -1;
-
                     }
                     isColliding = true;
                 }
