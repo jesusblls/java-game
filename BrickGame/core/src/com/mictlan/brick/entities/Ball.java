@@ -16,8 +16,8 @@ public class Ball extends GameObject {
     private int y;
     private int width = 32;
     private int height = 32;
-    private int velX = 200;
-    private int velY = 200;
+    private int velX = 250;
+    private int velY = 250;
     private boolean isColliding = false;
     private Rectangle hitbox;
     private Player player;
@@ -77,6 +77,7 @@ public class Ball extends GameObject {
         }
         isColliding = false;
 
+        // window collition
         if (x < 0) {
             velX *= -1;
         }
@@ -94,9 +95,12 @@ public class Ball extends GameObject {
 
         // Player Collision
         if (player.getHitbox().overlaps(this.hitbox)) {
+            double speedXY = Math.sqrt(velX*velX + velY*velY);
+            double posX = (getCenterX() - player.getCenterX()) / (player.getWidth() / 2);
             System.out.println("COLITION");
             y = player.getY() + player.getHeight();
-            velY *= -1;
+            velX = (int)(speedXY * posX * player.getFriction() * 1.2) ;
+            velY = (int)(Math.sqrt(speedXY*speedXY - velX*velX) * (velY > 0 ? -1 : 1));
         }
     }
 
@@ -123,6 +127,14 @@ public class Ball extends GameObject {
     @Override
     public Color getColor() {
         return color;
+    }
+
+    public float getCenterX() {
+        return x + width / 2;
+    }
+
+    public float getCenterY() {
+        return y + height / 2;
     }
 
 }

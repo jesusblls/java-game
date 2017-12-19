@@ -13,6 +13,7 @@ public class Player extends GameObject {
     private int x = 0;
     private int y = 0;
     private int velX = 200;
+    private float friction = .80f;
 
     private Color color;
 
@@ -84,5 +85,17 @@ public class Player extends GameObject {
 
     public Rectangle getHitbox() {
         return hitbox;
+    }
+
+    public float getFriction() {
+        return friction;
+    }
+
+    public float getCenterX() {
+        return x + width / 2;
+    }
+
+    public float getCenterY() {
+        return y + height / 2;
     }
 }
