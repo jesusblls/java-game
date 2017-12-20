@@ -29,7 +29,6 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
         player = new Player(0, 0);
-        brick = new Brick(0, 0);
         brickController = new BrickController();
         scoreController = new ScoreController();
         ball = new Ball(150, 100, player, brickController, scoreController);
