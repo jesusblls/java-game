@@ -13,7 +13,7 @@ public class Player extends GameObject {
     private int x = 0;
     private int y = 0;
     private int velX = 200;
-    private float friction = .80f;
+    private float friction = .80F;
 
     private Color color;
 

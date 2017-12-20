@@ -62,6 +62,12 @@ public class Ball extends GameObject {
                 velX *= -1;
             }
         }
+        if (this.hitbox.overlaps(player.getHitbox())){
+            isColliding = true;
+            double speedXY = Math.sqrt(velX*velX + velY*velY);
+            double posX = (getCenterX() - player.getCenterX()) / (player.getWidth() / 2);
+            velX = (int)(speedXY * posX * player.getFriction() * 1.2) ;
+        }
         isColliding = false;
 
         moveOnY();
@@ -74,6 +80,11 @@ public class Ball extends GameObject {
                 iter.remove();
                 velY *= -1;
             }
+        }
+        if (this.hitbox.overlaps(player.getHitbox())){
+            isColliding = true;
+            double speedXY = Math.sqrt(velX*velX + velY*velY);
+            velY = (int)(Math.sqrt(speedXY*speedXY - velX*velX) * (velY > 0 ? -1 : 1));
         }
         isColliding = false;
 
@@ -93,15 +104,8 @@ public class Ball extends GameObject {
 
         }
 
-        // Player Collision
-        if (player.getHitbox().overlaps(this.hitbox)) {
-            double speedXY = Math.sqrt(velX*velX + velY*velY);
-            double posX = (getCenterX() - player.getCenterX()) / (player.getWidth() / 2);
-            System.out.println("COLITION");
-            y = player.getY() + player.getHeight();
-            velX = (int)(speedXY * posX * player.getFriction() * 1.2) ;
-            velY = (int)(Math.sqrt(speedXY*speedXY - velX*velX) * (velY > 0 ? -1 : 1));
-        }
+
+        // Player Collisio
     }
 
     @Override
