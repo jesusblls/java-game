@@ -16,8 +16,8 @@ public class Ball extends GameObject {
     private int y;
     private int width = 32;
     private int height = 32;
-    private int velX = 200;
-    private int velY = 200;
+    private int velX = 250;
+    private int velY = 250;
     private boolean isColliding = false;
     private Rectangle hitbox;
     private Player player;
@@ -39,13 +39,56 @@ public class Ball extends GameObject {
         this.scorecontroller = scorecontroller;
     }
 
+    public void moveOnX() {
+        x += velX * Gdx.graphics.getDeltaTime();
+        hitbox.x = x;
+    }
+
+    public void moveOnY() {
+        y -= velY * Gdx.graphics.getDeltaTime();
+        hitbox.y = y;
+    }
 
     public void update() {
 
+        moveOnX();
+        // Brick Collision on X
+        Iterator<Brick> iter = brickcontroller.getBricks().iterator();
+        while(iter.hasNext() && !isColliding) {
+            Brick brick = iter.next();
+            if (this.hitbox.overlaps(brick.getHitbox())) {
+                isColliding = true;
+                iter.remove();
+                velX *= -1;
+            }
+        }
+        if (this.hitbox.overlaps(player.getHitbox())){
+            isColliding = true;
+            double speedXY = Math.sqrt(velX*velX + velY*velY);
+            double posX = (getCenterX() - player.getCenterX()) / (player.getWidth() / 2);
+            velX = (int)(speedXY * posX * player.getFriction() * 1.2) ;
+        }
+        isColliding = false;
 
-        x += velX * Gdx.graphics.getDeltaTime();
-        y -= velY * Gdx.graphics.getDeltaTime();
+        moveOnY();
+        // Brick Collision on Y
+        iter = brickcontroller.getBricks().iterator();
+        while(iter.hasNext() && !isColliding) {
+            Brick brick = iter.next();
+            if (this.hitbox.overlaps(brick.getHitbox())) {
+                isColliding = true;
+                iter.remove();
+                velY *= -1;
+            }
+        }
+        if (this.hitbox.overlaps(player.getHitbox())){
+            isColliding = true;
+            double speedXY = Math.sqrt(velX*velX + velY*velY);
+            velY = (int)(Math.sqrt(speedXY*speedXY - velX*velX) * (velY > 0 ? -1 : 1));
+        }
+        isColliding = false;
 
+        // window collition
         if (x < 0) {
             velX *= -1;
         }
@@ -62,38 +105,7 @@ public class Ball extends GameObject {
         }
 
 
-        if (player.getHitbox().overlaps(this.hitbox)) {
-            System.out.println("COLITION");
-            y = player.getY() + player.getHeight();
-            velY *= -1;
-        }
-
-        hitbox.x = x;
-        hitbox.y = y;
-
-        Iterator<Brick> iter = brickcontroller.getBricks().iterator();
-        while(iter.hasNext()) {
-            Brick brick = iter.next();
-            if (brick.getHitbox().overlaps(this.hitbox)){
-                System.out.println("COLITION");
-                if(!isColliding) {
-                    int so = (y - brick.getHeight() - height);
-                    int bo = (x - brick.getWidth() - width);
-                    if( so > bo ){
-                        velX *= -1;
-                    }
-                    if (bo > so){
-                        y = brick.getY() - brick.getHeight();
-                        velY *= -1;
-                    }
-                    isColliding = true;
-                }
-                iter.remove();
-                scorecontroller.addPoints(brick.getPoints());
-            } else {
-                isColliding = false;
-            }
-        }
+        // Player Collisio
     }
 
     @Override
@@ -119,6 +131,14 @@ public class Ball extends GameObject {
     @Override
     public Color getColor() {
         return color;
+    }
+
+    public float getCenterX() {
+        return x + width / 2;
+    }
+
+    public float getCenterY() {
+        return y + height / 2;
     }
 
 }
