@@ -60,6 +60,8 @@ public class Ball extends GameObject {
                 isColliding = true;
                 iter.remove();
                 velX *= -1;
+                System.out.println(brick.isHasPowerUp());
+                scorecontroller.addPoints(brick.getPoints());
             }
         }
         if (this.hitbox.overlaps(player.getHitbox())){
@@ -79,6 +81,8 @@ public class Ball extends GameObject {
                 isColliding = true;
                 iter.remove();
                 velY *= -1;
+                System.out.println(brick.isHasPowerUp());
+                scorecontroller.addPoints(brick.getPoints());
             }
         }
         if (this.hitbox.overlaps(player.getHitbox())){

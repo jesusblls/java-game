@@ -11,12 +11,21 @@ public class Brick extends GameObject {
     private int width = 50;
     private int height = 30;
     private int points = 100;
+
+
+
+
+    private boolean hasPowerUp = false;
     private Color color;
     private Rectangle hitbox;
 
-    public Brick(int x, int y) {
+
+
+    public Brick(int x, int y, boolean hasPowerUp) {
         this.x = x;
         this.y = y;
+
+        this.hasPowerUp = hasPowerUp;
         hitbox = new Rectangle();
         hitbox.width = 50;
         hitbox.height = 30;
@@ -60,5 +69,14 @@ public class Brick extends GameObject {
 
     public int getPoints() {
         return points;
+    }
+
+    public boolean isHasPowerUp() {
+        return hasPowerUp;
+    }
+
+    @Override
+    public void setColor(Color color){
+        this.color = color;
     }
 }
