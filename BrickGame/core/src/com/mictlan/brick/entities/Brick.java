@@ -11,10 +11,6 @@ public class Brick extends GameObject {
     private int width = 50;
     private int height = 30;
     private int points = 100;
-
-
-
-
     private boolean hasPowerUp = false;
     private Color color;
     private Rectangle hitbox;
@@ -71,7 +67,7 @@ public class Brick extends GameObject {
         return points;
     }
 
-    public boolean isHasPowerUp() {
+    public boolean hasPowerUp() {
         return hasPowerUp;
     }
 

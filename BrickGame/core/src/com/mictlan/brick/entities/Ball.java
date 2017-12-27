@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
+import com.mictlan.brick.screens.GameScreen;
 import com.mictlan.brick.utils.ColorFactory;
 import com.mictlan.brick.controllers.BrickController;
 import com.mictlan.brick.controllers.ScoreController;
@@ -24,8 +25,9 @@ public class Ball extends GameObject {
     private BrickController brickcontroller;
     Color color;
     private ScoreController scorecontroller;
+    private GameScreen gs;
 
-    public Ball(int x, int y, Player player, BrickController brickcontroller, ScoreController scorecontroller) {
+    public Ball(int x, int y, Player player, BrickController brickcontroller, ScoreController scorecontroller, GameScreen gs) {
         this.x = x;
         this.y = y;
         color = ColorFactory.getColor(244, 244, 244);
@@ -37,6 +39,7 @@ public class Ball extends GameObject {
         this.player = player;
         this.brickcontroller = brickcontroller;
         this.scorecontroller = scorecontroller;
+        this.gs = gs;
     }
 
     public void moveOnX() {
@@ -60,7 +63,9 @@ public class Ball extends GameObject {
                 isColliding = true;
                 iter.remove();
                 velX *= -1;
-                System.out.println(brick.isHasPowerUp());
+                if(brick.hasPowerUp()) {
+                    gs.spawnPowerUp(brick);
+                }
                 scorecontroller.addPoints(brick.getPoints());
             }
         }
@@ -81,7 +86,9 @@ public class Ball extends GameObject {
                 isColliding = true;
                 iter.remove();
                 velY *= -1;
-                System.out.println(brick.isHasPowerUp());
+                if(brick.hasPowerUp()) {
+                    gs.spawnPowerUp(brick);
+                }
                 scorecontroller.addPoints(brick.getPoints());
             }
         }

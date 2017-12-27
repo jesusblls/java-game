@@ -27,7 +27,7 @@ public class BrickController {
             for (int i = 0; i < numberOfBricks; i++) {
                 Random rand = new Random();
                 int intRand = rand.nextInt(10);
-                if (intRand < 2){
+                if (intRand < 8){
 
                     brick = new Brick(iniX, iniY, true);
                     Color color = ColorFactory.getColor(70,130,180);

@@ -8,10 +8,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mictlan.brick.BrickGame;
 import com.mictlan.brick.controllers.BrickController;
 import com.badlogic.gdx.math.Rectangle;
+import com.mictlan.brick.controllers.PowerUpController;
 import com.mictlan.brick.controllers.ScoreController;
 import com.mictlan.brick.entities.Ball;
 import com.mictlan.brick.entities.Player;
 import com.mictlan.brick.entities.Brick;
+import com.mictlan.brick.entities.PowerUp;
 
 public class GameScreen implements Screen {
     private final BrickGame game;
@@ -22,6 +24,7 @@ public class GameScreen implements Screen {
     private ScoreController scoreController;
     private Ball ball;
     private Brick brick;
+    private PowerUpController puController;
 
     public GameScreen(final BrickGame game) {
         this.game = game;
@@ -31,7 +34,8 @@ public class GameScreen implements Screen {
         player = new Player(0, 0);
         brickController = new BrickController();
         scoreController = new ScoreController();
-        ball = new Ball(150, 100, player, brickController, scoreController);
+        ball = new Ball(150, 100, player, brickController, scoreController, this);
+        puController = new PowerUpController();
     }
 
     @Override
@@ -51,7 +55,7 @@ public class GameScreen implements Screen {
         player.render(game.getSrenderer(), player);
         brickController.render(game.getSrenderer());
         ball.render(game.getSrenderer(), ball);
-
+        puController.render(game.getSrenderer());
         game.getSrenderer().end();
 
         game.getBatch().begin();
@@ -60,8 +64,7 @@ public class GameScreen implements Screen {
 
         player.update();
         ball.update();
-
-
+        puController.update();
 
     }
 
@@ -94,5 +97,9 @@ public class GameScreen implements Screen {
 
     public OrthographicCamera getCamera() {
         return camera;
+    }
+
+    public void spawnPowerUp(Brick brick) {
+        puController.addPowerUp(brick.getX(), brick.getY());
     }
 }
