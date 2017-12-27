@@ -1,42 +1,29 @@
 package com.mictlan.brick.entities;
 
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.mictlan.brick.utils.ColorFactory;
 
-public class Brick extends GameObject {
-    private int x = 0;
-    private int y = 0;
-    private int width = 50;
-    private int height = 30;
-    private int points = 100;
-
-
-
-
-    private boolean hasPowerUp = false;
+public class PowerUp extends GameObject {
+    private int x;
+    private int y;
+    private int width = 20;
+    private int height = 20;
     private Color color;
     private Rectangle hitbox;
 
-
-
-    public Brick(int x, int y, boolean hasPowerUp) {
+    public PowerUp (int x, int y) {
         this.x = x;
         this.y = y;
-
-        this.hasPowerUp = hasPowerUp;
         hitbox = new Rectangle();
-        hitbox.width = 50;
-        hitbox.height = 30;
+        hitbox.width = 20;
+        hitbox.height = 20;
         hitbox.x = x;
         hitbox.y = y;
-        color = ColorFactory.getColor(244, 244, 244);
-
+        color = ColorFactory.getColor(70,130,180);
     }
 
-    @Override
-    public void update() {
+    public void update (){
         hitbox.x = x;
         hitbox.y = y;
     }
@@ -65,18 +52,5 @@ public class Brick extends GameObject {
 
     public Rectangle getHitbox() {
         return hitbox;
-    }
-
-    public int getPoints() {
-        return points;
-    }
-
-    public boolean hasPowerUp() {
-        return hasPowerUp;
-    }
-
-    @Override
-    public void setColor(Color color){
-        this.color = color;
     }
 }
