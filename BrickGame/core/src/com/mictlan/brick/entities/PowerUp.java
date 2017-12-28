@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.mictlan.brick.utils.ColorFactory;
 
+
 public class PowerUp extends GameObject {
     private int x;
     private int y;
@@ -21,9 +22,14 @@ public class PowerUp extends GameObject {
         hitbox = new Rectangle(x, y, width, height);
     }
 
+
+
     @Override
     public void update() {
+
         y -= velY * Gdx.graphics.getDeltaTime();
+        hitbox.y = y;
+
     }
 
     @Override
@@ -49,5 +55,10 @@ public class PowerUp extends GameObject {
     @Override
     public Color getColor() {
         return color;
+    }
+
+    @Override
+    public Rectangle getHitbox() {
+        return hitbox;
     }
 }

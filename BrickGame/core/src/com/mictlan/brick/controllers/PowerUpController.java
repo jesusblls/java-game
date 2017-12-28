@@ -1,9 +1,11 @@
 package com.mictlan.brick.controllers;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mictlan.brick.entities.Player;
 import com.mictlan.brick.entities.PowerUp;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by josel.garza on 27/12/2017.
@@ -11,15 +13,29 @@ import java.util.ArrayList;
 public class PowerUpController {
 
     private ArrayList<PowerUp> powerUps;
+    private Player player;
+    private ScoreController scoreController;
+    private PowerUp powerUp;
 
-    public PowerUpController() {
+    public PowerUpController(Player player, ScoreController scoreController) {
+
         powerUps = new ArrayList<PowerUp>();
+        this.player = player;
+        this.scoreController = scoreController;
     }
 
     public void update() {
-        for (PowerUp powerUp : powerUps) {
+
+        Iterator<PowerUp> iter = powerUps.iterator();
+        while (iter.hasNext()) {
+            powerUp = iter.next();
             powerUp.update();
+            if (player.getHitbox().overlaps(powerUp.getHitbox())) {
+                iter.remove();
+                scoreController.addPoints(200);
+            }
         }
+
     }
 
     public void render(ShapeRenderer srenderer) {
@@ -35,5 +51,9 @@ public class PowerUpController {
 
     public boolean hasPowerUp(){
         return powerUps.size() > 0;
+    }
+
+    public void remove(PowerUp powerUp) {
+        powerUps.remove(powerUp);
     }
 }

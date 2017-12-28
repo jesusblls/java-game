@@ -13,6 +13,7 @@ import com.mictlan.brick.controllers.ScoreController;
 import com.mictlan.brick.entities.Ball;
 import com.mictlan.brick.entities.Player;
 import com.mictlan.brick.entities.Brick;
+import com.mictlan.brick.entities.PowerUp;
 
 public class GameScreen implements Screen {
     private final BrickGame game;
@@ -31,10 +32,10 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, 800, 480);
         player = new Player(0, 0);
         brickController = new BrickController();
-        puController = new PowerUpController();
         scoreController = new ScoreController();
+        puController = new PowerUpController(player, scoreController);
         // needs to be called last
-        ball = new Ball(150, 100, player, brickController, scoreController, this);
+        ball = new Ball(100, 140, player, brickController, scoreController, this);
     }
 
     @Override
@@ -57,12 +58,19 @@ public class GameScreen implements Screen {
         game.getSrenderer().end();
         game.getBatch().begin();
         game.getFont().draw(game.getBatch(), "Points: " + scoreController.getScore(), 0, 480);
+        if (ball.getY() < 0){
+            game.getFont().draw(game.getBatch(), "Click to play again", 250, 100);
+            if (Gdx.input.isTouched()) {
+                game.setScreen(new GameScreen(game));
+            }
+        }
         game.getBatch().end();
         // Rendering ends
 
         player.update();
         ball.update();
         puController.update();
+
     }
 
     @Override

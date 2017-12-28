@@ -11,4 +11,5 @@ public class ScoreController {
     public void addPoints(int points) {
         this.score = score + points;
     }
+
 }

@@ -107,9 +107,6 @@ public class Ball extends GameObject {
             velX *= -1;
         }
 
-        if (y < 0) {
-            velY *= -1;
-        }
         if (y > 480 - width) {
             velY *= -1;
 
