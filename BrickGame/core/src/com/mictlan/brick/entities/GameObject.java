@@ -3,12 +3,14 @@ package com.mictlan.brick.entities;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 
 public abstract class GameObject {
     private int x;
     private int y;
     private int width;
     private int height;
+    private Rectangle hitbox;
     private Color color;
 
     public void render(ShapeRenderer srenderer, GameObject gobject) {
@@ -48,6 +50,14 @@ public abstract class GameObject {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public Rectangle getHitbox() {
+        return hitbox;
+    }
+
+    public void setRectangle(Rectangle hitbox) {
+        this.hitbox = hitbox;
     }
 
     public Color getColor() {

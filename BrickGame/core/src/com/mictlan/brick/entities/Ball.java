@@ -19,11 +19,10 @@ public class Ball extends GameObject {
     private int height = 32;
     private int velX = 250;
     private int velY = 250;
-    private boolean isColliding = false;
+    Color color;
     private Rectangle hitbox;
     private Player player;
     private BrickController brickcontroller;
-    Color color;
     private ScoreController scorecontroller;
     private GameScreen gs;
 
@@ -52,52 +51,53 @@ public class Ball extends GameObject {
         hitbox.y = y;
     }
 
-    public void update() {
-
-        moveOnX();
-        // Brick Collision on X
+    public Brick getCollidingBrick() {
+        Brick brick = null;
         Iterator<Brick> iter = brickcontroller.getBricks().iterator();
-        while(iter.hasNext() && !isColliding) {
-            Brick brick = iter.next();
+        while (iter.hasNext()) {
+            brick = iter.next();
             if (this.hitbox.overlaps(brick.getHitbox())) {
-                isColliding = true;
-                iter.remove();
-                velX *= -1;
-                if(brick.hasPowerUp()) {
-                    gs.spawnPowerUp(brick);
-                }
-                scorecontroller.addPoints(brick.getPoints());
+                return brick;
             }
         }
+        return null;
+    }
+
+    public void update() {
+        moveOnX();
+        // Brick collision on X
+        Brick collidingBrick = getCollidingBrick();
+        if(collidingBrick != null) {
+            brickcontroller.remove(collidingBrick);
+            velX *= -1;
+            scorecontroller.addPoints(collidingBrick.getPoints());
+            if(collidingBrick.hasPowerUp()) {
+                gs.spawnPowerUp(collidingBrick);
+            }
+        }
+        // Player collision on x
         if (this.hitbox.overlaps(player.getHitbox())){
-            isColliding = true;
             double speedXY = Math.sqrt(velX*velX + velY*velY);
             double posX = (getCenterX() - player.getCenterX()) / (player.getWidth() / 2);
             velX = (int)(speedXY * posX * player.getFriction() * 1.2) ;
         }
-        isColliding = false;
 
         moveOnY();
-        // Brick Collision on Y
-        iter = brickcontroller.getBricks().iterator();
-        while(iter.hasNext() && !isColliding) {
-            Brick brick = iter.next();
-            if (this.hitbox.overlaps(brick.getHitbox())) {
-                isColliding = true;
-                iter.remove();
-                velY *= -1;
-                if(brick.hasPowerUp()) {
-                    gs.spawnPowerUp(brick);
-                }
-                scorecontroller.addPoints(brick.getPoints());
+        // Brick collision on Y
+        collidingBrick = getCollidingBrick();
+        if(collidingBrick != null) {
+            brickcontroller.remove(collidingBrick);
+            velY *= -1;
+            scorecontroller.addPoints(collidingBrick.getPoints());
+            if(collidingBrick.hasPowerUp()) {
+                gs.spawnPowerUp(collidingBrick);
             }
         }
+        // Player collision on Y
         if (this.hitbox.overlaps(player.getHitbox())){
-            isColliding = true;
             double speedXY = Math.sqrt(velX*velX + velY*velY);
             velY = (int)(Math.sqrt(speedXY*speedXY - velX*velX) * (velY > 0 ? -1 : 1));
         }
-        isColliding = false;
 
         // window collition
         if (x < 0) {
@@ -114,9 +114,6 @@ public class Ball extends GameObject {
             velY *= -1;
 
         }
-
-
-        // Player Collisio
     }
 
     @Override

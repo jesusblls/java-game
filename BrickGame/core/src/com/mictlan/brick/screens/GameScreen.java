@@ -13,7 +13,6 @@ import com.mictlan.brick.controllers.ScoreController;
 import com.mictlan.brick.entities.Ball;
 import com.mictlan.brick.entities.Player;
 import com.mictlan.brick.entities.Brick;
-import com.mictlan.brick.entities.PowerUp;
 
 public class GameScreen implements Screen {
     private final BrickGame game;
@@ -23,7 +22,6 @@ public class GameScreen implements Screen {
     private BrickController brickController;
     private ScoreController scoreController;
     private Ball ball;
-    private Brick brick;
     private PowerUpController puController;
 
     public GameScreen(final BrickGame game) {
@@ -33,14 +31,14 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, 800, 480);
         player = new Player(0, 0);
         brickController = new BrickController();
-        scoreController = new ScoreController();
-        ball = new Ball(150, 100, player, brickController, scoreController, this);
         puController = new PowerUpController();
+        scoreController = new ScoreController();
+        // needs to be called last
+        ball = new Ball(150, 100, player, brickController, scoreController, this);
     }
 
     @Override
     public void show() {
-
     }
 
     @Override
@@ -49,23 +47,22 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         game.getSrenderer().setProjectionMatrix(camera.combined);
-
         game.getSrenderer().begin(ShapeType.Filled);
 
+        // Rendering begins
         player.render(game.getSrenderer(), player);
         brickController.render(game.getSrenderer());
         ball.render(game.getSrenderer(), ball);
         puController.render(game.getSrenderer());
         game.getSrenderer().end();
-
         game.getBatch().begin();
         game.getFont().draw(game.getBatch(), "Points: " + scoreController.getScore(), 0, 480);
         game.getBatch().end();
+        // Rendering ends
 
         player.update();
         ball.update();
         puController.update();
-
     }
 
     @Override

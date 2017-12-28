@@ -2,21 +2,17 @@ package com.mictlan.brick.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.mictlan.brick.utils.ColorFactory;
 
-/**
- * Created by josel.garza on 27/12/2017.
- */
 public class PowerUp extends GameObject {
     private int x;
     private int y;
     private int width = 20;
     private int height = 20;
     private int velY = 200;
-    private Color color;
     private Rectangle hitbox;
+    private Color color;
 
     public PowerUp(int x, int y) {
         this.x = x;

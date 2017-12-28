@@ -58,4 +58,8 @@ public class BrickController {
     public ArrayList<Brick> getBricks() {
         return bricks;
     }
+
+    public void remove(Brick brick) {
+        bricks.remove(brick);
+    }
 }
