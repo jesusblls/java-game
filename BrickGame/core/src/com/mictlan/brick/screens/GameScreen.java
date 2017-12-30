@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mictlan.brick.BrickGame;
 import com.mictlan.brick.controllers.BrickController;
-import com.badlogic.gdx.math.Rectangle;
+import com.mictlan.brick.controllers.PowerUpController;
 import com.mictlan.brick.controllers.ScoreController;
 import com.mictlan.brick.entities.Ball;
 import com.mictlan.brick.entities.Player;
@@ -15,11 +15,16 @@ import com.mictlan.brick.entities.Brick;
 
 public class GameScreen implements Screen {
     private final BrickGame game;
+    private final int PLAYER_WIDTH = 192;
+    private final int PLAYER_HEIGHT = 32;
+    private final int BALL_HEIGHT = 32;
+    private final int BALL_WIDTH = 32;
 
     private OrthographicCamera camera;
     private Player player;
     private BrickController brickController;
     private ScoreController scoreController;
+    private PowerUpController puController;
     private Ball ball;
     private Brick brick;
 
@@ -28,10 +33,12 @@ public class GameScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
-        player = new Player(0, 0);
+        player = new Player(300, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
         brickController = new BrickController();
-        scoreController = new ScoreController();
-        ball = new Ball(150, 100, player, brickController, scoreController);
+        // needs to be called last
+        ball = new Ball(200, 200, BALL_WIDTH, BALL_HEIGHT, player, brickController);
+        scoreController = new ScoreController(ball);
+        puController = new PowerUpController(player, scoreController, ball);
     }
 
     @Override
@@ -48,10 +55,11 @@ public class GameScreen implements Screen {
 
         game.getSrenderer().begin(ShapeType.Filled);
 
-        player.render(game.getSrenderer(), player);
+        // Rendering begins
+        player.render(game.getSrenderer());
         brickController.render(game.getSrenderer());
-        ball.render(game.getSrenderer(), ball);
-
+        ball.render(game.getSrenderer());
+        puController.render(game.getSrenderer());
         game.getSrenderer().end();
 
         game.getBatch().begin();
@@ -60,6 +68,7 @@ public class GameScreen implements Screen {
 
         player.update();
         ball.update();
+        puController.update();
 
 
 

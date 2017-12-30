@@ -6,33 +6,18 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mictlan.brick.utils.ColorFactory;
 
 public class Brick extends GameObject {
-    private int x = 0;
-    private int y = 0;
-    private int width = 50;
-    private int height = 30;
     private int points = 100;
 
 
 
 
     private boolean hasPowerUp = false;
-    private Color color;
-    private Rectangle hitbox;
 
-
-
-    public Brick(int x, int y, boolean hasPowerUp) {
-        this.x = x;
-        this.y = y;
-
-        this.hasPowerUp = hasPowerUp;
-        hitbox = new Rectangle();
-        hitbox.width = 50;
-        hitbox.height = 30;
-        hitbox.x = x;
-        hitbox.y = y;
+    public Brick(int x, int y, int width, int height, boolean hasPowerUp) {
+        super(x, y, width, height);
         color = ColorFactory.getColor(244, 244, 244);
-
+        this.hasPowerUp = hasPowerUp;
+        hitbox = new Rectangle(x, y, width, height);
     }
 
     @Override
@@ -41,37 +26,11 @@ public class Brick extends GameObject {
         hitbox.y = y;
     }
 
-    @Override
-    public Color getColor() {
-        return color;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public Rectangle getHitbox() {
-        return hitbox;
-    }
-
     public int getPoints() {
         return points;
     }
 
-    public boolean isHasPowerUp() {
+    public boolean hasPowerUp() {
         return hasPowerUp;
     }
 
