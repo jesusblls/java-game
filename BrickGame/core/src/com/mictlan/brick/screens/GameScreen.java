@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mictlan.brick.BrickGame;
 import com.mictlan.brick.controllers.BrickController;
+import com.mictlan.brick.controllers.CollisionController;
 import com.mictlan.brick.controllers.PowerUpController;
 import com.mictlan.brick.controllers.ScoreController;
 import com.mictlan.brick.entities.Ball;
@@ -25,8 +26,8 @@ public class GameScreen implements Screen {
     private BrickController brickController;
     private ScoreController scoreController;
     private PowerUpController puController;
+    private CollisionController collisionController;
     private Ball ball;
-    private Brick brick;
 
     public GameScreen(final BrickGame game) {
         this.game = game;
@@ -39,6 +40,7 @@ public class GameScreen implements Screen {
         ball = new Ball(200, 200, BALL_WIDTH, BALL_HEIGHT, player, brickController);
         scoreController = new ScoreController(ball);
         puController = new PowerUpController(player, scoreController, ball);
+        collisionController = new CollisionController(ball);
     }
 
     @Override
@@ -64,6 +66,12 @@ public class GameScreen implements Screen {
 
         game.getBatch().begin();
         game.getFont().draw(game.getBatch(), "Points: " + scoreController.getScore(), 0, 480);
+        if (ball.getY() < 0){
+            game.getFont().draw(game.getBatch(), "Click to play again", 250, 100);
+            if (Gdx.input.isTouched()) {
+                game.setScreen(new GameScreen(game));
+            }
+        }
         game.getBatch().end();
 
         player.update();
