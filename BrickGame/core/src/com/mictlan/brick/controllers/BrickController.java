@@ -3,6 +3,8 @@ package com.mictlan.brick.controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mictlan.brick.entities.Brick;
+import com.mictlan.brick.entities.GameObject;
+import com.mictlan.brick.screens.GameScreen;
 import com.mictlan.brick.utils.ColorFactory;
 
 import java.util.Random;
@@ -10,18 +12,22 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class BrickController {
-    private final int BRICK_WIDTH = 50;
-    private final int BRICK_HEIGHT = 30;
     int numberOfBricks = 13;
-    int rows = 5;
-    int gap = 3;
+    private int rows = 5;
+    private final float BRICK_WIDTH = 50 / GameScreen.RESIZE_FACTOR;
+    private final float BRICK_HEIGHT = 30 / GameScreen.RESIZE_FACTOR;
+    private float gap = 3;
+    private float totalWidht = (numberOfBricks * (BRICK_WIDTH + gap)) - 3;
+    private  float iniX = (GameScreen.GAME_WIDTH - totalWidht) / 2;
+    private float iniY = 395;
 
-    ArrayList<Brick> bricks;
+    ArrayList<GameObject> bricks;
 
     public BrickController() {
-        bricks = new ArrayList<Brick>();
-        int iniX = 54;
-        int iniY = 395;
+        System.out.println(iniX);
+        bricks = new ArrayList<GameObject>();
+        float newX = iniX;
+        float newY = iniY;
 
         Brick brick = null;
         for (int x = 0; x < rows; x++) {
@@ -29,28 +35,28 @@ public class BrickController {
                 Random rand = new Random();
                 int intRand = rand.nextInt(10);
                 if (intRand < 2){
-                    brick = new Brick(iniX, iniY, BRICK_WIDTH, BRICK_HEIGHT, true);
+                    brick = new Brick(newX, newY, BRICK_WIDTH, BRICK_HEIGHT, true);
                     Color color = ColorFactory.getColor(70,130,180);
                     brick.setColor(color);
                 } else {
-                    brick = new Brick(iniX, iniY, BRICK_WIDTH, BRICK_HEIGHT, false);
+                    brick = new Brick(newX, newY, BRICK_WIDTH, BRICK_HEIGHT, false);
                 }
                 bricks.add(brick);
-                iniX += brick.getWidth() + gap;
+                newX += brick.getWidth() + gap;
             }
-            iniY -= (brick.getHeight() + gap);
-            iniX = 54;
+            newY -= (brick.getHeight() + gap);
+            newX = iniX;
         }
 
     }
 
     public void render(ShapeRenderer srenderer) {
-        for (Brick brick : bricks) {
+        for (GameObject brick : bricks) {
             brick.render(srenderer);
         }
     }
 
-    public ArrayList<Brick> getBricks() {
+    public ArrayList<GameObject> getBricks() {
         return bricks;
     }
 

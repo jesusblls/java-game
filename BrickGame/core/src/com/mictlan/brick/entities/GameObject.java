@@ -5,21 +5,21 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 public abstract class GameObject {
-    protected int x;
-    protected int y;
-    protected int width;
-    protected int height;
+    protected float x;
+    protected float y;
+    protected float width;
+    protected float height;
     protected Rectangle hitbox;
     protected Color color;
 
-    public GameObject(int x, int y, int width, int height) {
+    public GameObject(float x, float y, float width, float height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
     }
 
-    public GameObject(int x, int y, int width, int height, Color color) {
+    public GameObject(float x, float y, float width, float height, Color color) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -34,7 +34,7 @@ public abstract class GameObject {
 
     public abstract void update();
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
@@ -42,7 +42,7 @@ public abstract class GameObject {
         this.x = x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
@@ -50,7 +50,7 @@ public abstract class GameObject {
         this.y = y;
     }
 
-    public int getWidth() {
+    public float getWidth() {
         return width;
     }
 
@@ -58,7 +58,7 @@ public abstract class GameObject {
         this.width = width;
     }
 
-    public int getHeight() {
+    public float getHeight() {
         return height;
     }
 

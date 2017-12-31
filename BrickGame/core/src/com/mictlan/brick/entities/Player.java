@@ -6,10 +6,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mictlan.brick.utils.ColorFactory;
 
 public class Player extends GameObject {
-    private int velX = 200;
+    private float velX = 200;
     private float friction = .80F;
 
-    public Player(int x, int y, int width, int height) {
+    public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
         hitbox = new Rectangle(x, y, width, height);
         color = ColorFactory.getColor(78, 32, 9);

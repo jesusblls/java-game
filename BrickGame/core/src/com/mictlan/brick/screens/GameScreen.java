@@ -16,31 +16,37 @@ import com.mictlan.brick.entities.Brick;
 
 public class GameScreen implements Screen {
     private final BrickGame game;
-    private final int PLAYER_WIDTH = 192;
-    private final int PLAYER_HEIGHT = 32;
-    private final int BALL_HEIGHT = 32;
-    private final int BALL_WIDTH = 32;
+    public static final float GAME_WIDTH = 800;
+    public static final float GAME_HEIGHT = 480;
+    public static final float  RESIZE_FACTOR = 1.3f;
+    private final float PLAYER_WIDTH = 192 / RESIZE_FACTOR;
+    private final float PLAYER_HEIGHT = 32 / RESIZE_FACTOR;
+    private final float BALL_WIDTH = 32 / RESIZE_FACTOR;
+    private final float BALL_HEIGHT = 32 / RESIZE_FACTOR;
 
     private OrthographicCamera camera;
     private Player player;
+    private Ball ball;
     private BrickController brickController;
     private ScoreController scoreController;
     private PowerUpController puController;
     private CollisionController collisionController;
-    private Ball ball;
 
     public GameScreen(final BrickGame game) {
         this.game = game;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, GAME_WIDTH, GAME_HEIGHT);
+        ball = new Ball(200, 200, BALL_WIDTH, BALL_HEIGHT);
         player = new Player(300, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
+        collisionController = new CollisionController(ball);
         brickController = new BrickController();
-        // needs to be called last
-        ball = new Ball(200, 200, BALL_WIDTH, BALL_HEIGHT, player, brickController);
         scoreController = new ScoreController(ball);
         puController = new PowerUpController(player, scoreController, ball);
-        collisionController = new CollisionController(ball);
+
+        // add entitites to collision controller
+        collisionController.addEntity(player);
+        collisionController.addEntities(brickController.getBricks());
     }
 
     @Override

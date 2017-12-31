@@ -13,8 +13,8 @@ import java.util.Iterator;
 
 public class PowerUpController implements Observer {
 
-    private final int POWERUP_WIDTH = 20;
-    private final int POWERUP_HEIGHT = 20;
+    private final float POWERUP_WIDTH = 20;
+    private final float POWERUP_HEIGHT = 20;
     private ArrayList<PowerUp> powerUps;
     private Player player;
     private ScoreController scoreController;
@@ -48,7 +48,7 @@ public class PowerUpController implements Observer {
         }
     }
 
-    public void addPowerUp(int x, int y) {
+    public void addPowerUp(float x, float y) {
         PowerUp powerUp = new PowerUp(x, y, POWERUP_WIDTH, POWERUP_HEIGHT);
         powerUps.add(powerUp);
     }

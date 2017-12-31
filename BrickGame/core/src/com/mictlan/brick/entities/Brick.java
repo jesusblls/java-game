@@ -7,13 +7,9 @@ import com.mictlan.brick.utils.ColorFactory;
 
 public class Brick extends GameObject {
     private int points = 100;
-
-
-
-
     private boolean hasPowerUp = false;
 
-    public Brick(int x, int y, int width, int height, boolean hasPowerUp) {
+    public Brick(float x, float y, float width, float height, boolean hasPowerUp) {
         super(x, y, width, height);
         color = ColorFactory.getColor(244, 244, 244);
         this.hasPowerUp = hasPowerUp;
