@@ -32,7 +32,7 @@ public abstract class GameObject {
         srenderer.rect(x, y, width, height);
     }
 
-    public abstract void update();
+    public abstract void update(float delta);
 
     public float getX() {
         return x;

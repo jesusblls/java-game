@@ -24,7 +24,6 @@ public class BrickController {
     ArrayList<GameObject> bricks;
 
     public BrickController() {
-        System.out.println(iniX);
         bricks = new ArrayList<GameObject>();
         float newX = iniX;
         float newY = iniY;

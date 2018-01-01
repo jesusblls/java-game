@@ -15,18 +15,18 @@ public class Player extends GameObject {
         color = ColorFactory.getColor(78, 32, 9);
     }
 
-    public void update() {
+    public void update(float delta) {
         // Listen for input
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                x -= (velX * 1.5) * Gdx.graphics.getDeltaTime();
+                x -= (velX * 1.5) * delta;
             }
-            x -= velX * Gdx.graphics.getDeltaTime();
+            x -= velX * delta;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            x += velX * Gdx.graphics.getDeltaTime();
+            x += velX * delta;
             if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                x += (velX * 1.5) * Gdx.graphics.getDeltaTime();
+                x += (velX * 1.5) * delta;
             }
         }
 

@@ -17,7 +17,7 @@ public class Brick extends GameObject {
     }
 
     @Override
-    public void update() {
+    public void update(float delta) {
         hitbox.x = x;
         hitbox.y = y;
     }

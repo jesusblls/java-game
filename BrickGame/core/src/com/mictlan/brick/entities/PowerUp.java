@@ -16,8 +16,8 @@ public class PowerUp extends GameObject {
     }
 
     @Override
-    public void update() {
-        y -= velY * Gdx.graphics.getDeltaTime();
+    public void update(float delta) {
+        y -= velY * delta;
         hitbox.y = y;
     }
 

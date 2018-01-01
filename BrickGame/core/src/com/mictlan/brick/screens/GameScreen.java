@@ -23,6 +23,8 @@ public class GameScreen implements Screen {
     private final float PLAYER_HEIGHT = 32 / RESIZE_FACTOR;
     private final float BALL_WIDTH = 32 / RESIZE_FACTOR;
     private final float BALL_HEIGHT = 32 / RESIZE_FACTOR;
+    private final float TIME_STEP = 0.01666666f;
+    private float accumulator = 0;
 
     private OrthographicCamera camera;
     private Player player;
@@ -80,9 +82,19 @@ public class GameScreen implements Screen {
         }
         game.getBatch().end();
 
-        player.update();
-        ball.update();
-        puController.update();
+        // Add an accumulator for long render times
+        float frameTime = Math.min(delta, 0.25f);
+        accumulator += frameTime;
+        while (accumulator >= TIME_STEP) {
+            player.update(TIME_STEP);
+            ball.update(TIME_STEP);
+            puController.update(TIME_STEP);
+            accumulator -= TIME_STEP;
+        }
+
+        player.update(delta);
+        ball.update(delta);
+        puController.update(delta);
 
 
 

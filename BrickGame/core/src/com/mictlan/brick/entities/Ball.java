@@ -22,26 +22,24 @@ public class Ball extends GameObject implements Subject {
         hitbox = new Rectangle(x, y, width, height);
     }
 
-    public void moveOnX() {
-        x += velX * Gdx.graphics.getDeltaTime();
+    public void moveOnX(float delta) {
+        x += velX * delta;
         hitbox.x = x;
         movingOnX = true;
         notifyObserver(this);
     }
 
-    public void moveOnY() {
-        y -= velY * Gdx.graphics.getDeltaTime();
+    public void moveOnY(float delta) {
+        y -= velY * delta;
         hitbox.y = y;
         movingOnX = false;
         notifyObserver(this);
     }
 
-    public void update() {
+    public void update(float delta) {
 
-        moveOnX();
-        moveOnY();
-        System.out.println(x + " " + y);
-        System.out.println(Gdx.graphics.getDeltaTime());
+        moveOnX(delta);
+        moveOnY(delta);
 
         // window collition
         if (x < 0) {

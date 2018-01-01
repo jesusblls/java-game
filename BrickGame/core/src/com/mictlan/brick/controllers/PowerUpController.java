@@ -29,11 +29,11 @@ public class PowerUpController implements Observer {
         ball.register(this);
     }
 
-    public void update() {
+    public void update(float delta) {
         Iterator<PowerUp> iter = powerUps.iterator();
         while (iter.hasNext()) {
             powerUp = iter.next();
-            powerUp.update();
+            powerUp.update(delta);
             if (player.getHitbox().overlaps(powerUp.getHitbox())) {
                 iter.remove();
                 scoreController.addPoints(200);
