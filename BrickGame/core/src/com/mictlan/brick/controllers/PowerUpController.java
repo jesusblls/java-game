@@ -19,14 +19,14 @@ public class PowerUpController implements Observer {
     private Player player;
     private ScoreController scoreController;
     private PowerUp powerUp;
-    private Subject ball;
+    private Subject subject;
 
-    public PowerUpController(Player player, ScoreController scoreController, Subject ball) {
+    public PowerUpController(Player player, ScoreController scoreController, Subject subject) {
         powerUps = new ArrayList<PowerUp>();
         this.player = player;
         this.scoreController = scoreController;
-        this.ball = ball;
-        ball.register(this);
+        this.subject = subject;
+        subject.register(this);
     }
 
     public void update(float delta) {

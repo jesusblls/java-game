@@ -9,45 +9,63 @@ import com.mictlan.brick.observer.Subject;
 
 import java.util.ArrayList;
 
-public class CollisionController implements Observer {
+public class CollisionController implements Observer, Subject {
 
-    private Subject ball;
-    private ArrayList<GameObject> entities;
+    private Subject subject;
+    private Player player;
+    private Ball ball;
+    private ArrayList<Brick> bricks;
+    private ArrayList<Observer> observers;
 
-    public CollisionController (Subject ball) {
-        entities = new ArrayList<GameObject>();
-        this.ball = ball;
+    public CollisionController (Subject subject) {
+        observers = new ArrayList<Observer>();
+        this.subject = subject;
         ball.register(this);
-
     }
 
-    public void addEntity (GameObject entity) {
-        entities.add(entity);
+    public void setBricks (ArrayList<Brick> bricks) {
+        this.bricks = bricks;
     }
 
-    public void addEntities (ArrayList<GameObject> entities) {
-        this.entities.addAll(entities);
-    }
-
-    @Override
-    public void update (GameObject ball) {
-        for (GameObject entity: entities) {
-            if (ball.getHitbox().overlaps(entity.getHitbox())) {
-                if (entity instanceof Player) {
-                   handlePlayerCollision((Ball) ball, (Player) entity);
-                }
-                else if (entity instanceof Brick) {
-                    handleBrickCollision((Ball) ball, (Brick) entity);
-                }
-            }
-        }
+    public void setPlayer (Player player) {
+        this.player = player;
     }
 
     private void handleBrickCollision(Ball ball, Brick brick) {
-        ball.bounceOnBrick();
+        ball.bounceOnBrick(brick);
     }
 
     private void handlePlayerCollision(Ball ball, Player player) {
         ball.bounceOnPlayer(player);
+    }
+
+    @Override
+    public void update (GameObject ball) {
+        // ball - brick collision
+        for (Brick brick: bricks) {
+            if (ball.getHitbox().overlaps(brick.getHitbox())) {
+                    handleBrickCollision((Ball) ball, brick);
+                    bricks.remove(brick);
+                    notifyObserver(brick);
+                    return;
+            }
+        }
+    }
+
+    @Override
+    public void register(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void unregister(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObserver(GameObject entity) {
+        for (Observer observer : observers) {
+            observer.update(entity);
+        }
     }
 }

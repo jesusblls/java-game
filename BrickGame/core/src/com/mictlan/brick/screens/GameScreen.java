@@ -42,13 +42,13 @@ public class GameScreen implements Screen {
         ball = new Ball(200, 200, BALL_WIDTH, BALL_HEIGHT);
         player = new Player(300, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
         collisionController = new CollisionController(ball);
-        brickController = new BrickController();
-        scoreController = new ScoreController(ball);
-        puController = new PowerUpController(player, scoreController, ball);
+        brickController = new BrickController(collisionController);
+        scoreController = new ScoreController(collisionController);
+        puController = new PowerUpController(player, scoreController, collisionController);
 
         // add entitites to collision controller
-        collisionController.addEntity(player);
-        collisionController.addEntities(brickController.getBricks());
+        collisionController.setPlayer(player);
+        collisionController.setBricks(brickController.getBricks());
     }
 
     @Override

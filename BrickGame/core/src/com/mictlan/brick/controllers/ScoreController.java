@@ -8,11 +8,11 @@ import com.mictlan.brick.observer.Subject;
 public class ScoreController  implements Observer{
 
     private int score = 0;
-    private Subject ball;
+    private Subject collisionController;
 
-    public ScoreController(Subject ball) {
-        this.ball = ball;
-        ball.register(this);
+    public ScoreController(Subject collisionController) {
+        this.collisionController = collisionController;
+        collisionController.register(this);
     }
 
     public int getScore() {

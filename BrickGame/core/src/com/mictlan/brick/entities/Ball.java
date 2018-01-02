@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 public class Ball extends GameObject implements Subject {
     private ArrayList<Observer> observers;
-    private int velX = 250;
-    private int velY = 250;
+    private int velX = 150;
+    private int velY = 150;
     private boolean movingOnX = false;
 
     public Ball(float x, float y, float width, float height) {
@@ -95,7 +95,8 @@ public class Ball extends GameObject implements Subject {
         }
     }
 
-    public void bounceOnBrick() {
+    public void bounceOnBrick(Brick brick) {
+        // if needed we can get brick info to fix the bounce or implement new mechanics
         if (movingOnX) {
             velX *= -1;
         }
