@@ -16,30 +16,19 @@ public class PowerUpController implements Observer {
     private final float POWERUP_WIDTH = 20;
     private final float POWERUP_HEIGHT = 20;
     private ArrayList<PowerUp> powerUps;
-    private Player player;
-    private ScoreController scoreController;
     private PowerUp powerUp;
     private Subject subject;
 
-    public PowerUpController(Player player, ScoreController scoreController, Subject subject) {
+    public PowerUpController(Subject subject) {
         powerUps = new ArrayList<PowerUp>();
-        this.player = player;
-        this.scoreController = scoreController;
         this.subject = subject;
         subject.register(this);
     }
 
     public void update(float delta) {
-        Iterator<PowerUp> iter = powerUps.iterator();
-        while (iter.hasNext()) {
-            powerUp = iter.next();
+        for (PowerUp powerUp : powerUps) {
             powerUp.update(delta);
-            if (player.getHitbox().overlaps(powerUp.getHitbox())) {
-                iter.remove();
-                scoreController.addPoints(200);
-            }
         }
-
     }
 
     public void render(ShapeRenderer srenderer) {
@@ -62,12 +51,16 @@ public class PowerUpController implements Observer {
     }
 
     @Override
-    public void update(GameObject gameObject) {
-        if (gameObject instanceof Brick) {
-            Brick brick = ((Brick) gameObject);
+    public void update(GameObject entity) {
+        if (entity instanceof Brick) {
+            Brick brick = ((Brick) entity);
             if(brick.hasPowerUp()) {
                 addPowerUp(brick.getX(), brick.getY());
             }
         }
+    }
+
+    public ArrayList<PowerUp> getPowerUps() {
+        return powerUps;
     }
 }

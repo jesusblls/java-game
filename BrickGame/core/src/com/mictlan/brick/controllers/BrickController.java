@@ -69,6 +69,8 @@ public class BrickController implements Observer {
 
     @Override
     public void update(GameObject entity) {
-        remove((Brick) entity);
+        if (entity instanceof Brick) {
+            remove((Brick) entity);
+        }
     }
 }

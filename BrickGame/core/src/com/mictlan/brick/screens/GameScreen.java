@@ -18,7 +18,7 @@ public class GameScreen implements Screen {
     private final BrickGame game;
     public static final float GAME_WIDTH = 800;
     public static final float GAME_HEIGHT = 480;
-    public static final float  RESIZE_FACTOR = 1.3f;
+    public static final float  RESIZE_FACTOR = 1.4f;
     private final float PLAYER_WIDTH = 192 / RESIZE_FACTOR;
     private final float PLAYER_HEIGHT = 32 / RESIZE_FACTOR;
     private final float BALL_WIDTH = 32 / RESIZE_FACTOR;
@@ -44,11 +44,12 @@ public class GameScreen implements Screen {
         collisionController = new CollisionController(ball);
         brickController = new BrickController(collisionController);
         scoreController = new ScoreController(collisionController);
-        puController = new PowerUpController(player, scoreController, collisionController);
+        puController = new PowerUpController(collisionController);
 
         // add entitites to collision controller
         collisionController.setPlayer(player);
         collisionController.setBricks(brickController.getBricks());
+        collisionController.setPowerUps(puController.getPowerUps());
     }
 
     @Override
@@ -74,6 +75,8 @@ public class GameScreen implements Screen {
 
         game.getBatch().begin();
         game.getFont().draw(game.getBatch(), "Points: " + scoreController.getScore(), 0, 480);
+
+        // End game condition
         if (ball.getY() < 0){
             game.getFont().draw(game.getBatch(), "Click to play again", 250, 100);
             if (Gdx.input.isTouched()) {
