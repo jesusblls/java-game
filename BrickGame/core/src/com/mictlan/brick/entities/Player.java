@@ -7,21 +7,11 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mictlan.brick.utils.ColorFactory;
 
 public class Player extends GameObject {
-    private int x;
-    private int y;
-    private int width = 192;
-    private int height = 32;
     private int velX = 200;
     private float friction = .80F;
 
-    private Color color;
-
-    private Rectangle hitbox;
-
-    public Player(int x, int y) {
-        this.x = x;
-        this.y = y;
-        hitbox = new Rectangle(x, y, width, height);
+    public Player(int x, int y, int width, int height) {
+        super(x, y, width, height);
         color = ColorFactory.getColor(78, 32, 9);
     }
 
@@ -53,44 +43,8 @@ public class Player extends GameObject {
 
     }
 
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public Color getColor() {
-        return color;
-    }
-
-    public Rectangle getHitbox() {
-        return hitbox;
-    }
-
     public float getFriction() {
         return friction;
     }
 
-    public float getCenterX() {
-        return x + width / 2;
-    }
-
-    public float getCenterY() {
-        return y + height / 2;
-    }
 }

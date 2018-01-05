@@ -16,6 +16,11 @@ import com.mictlan.brick.entities.Brick;
 import com.mictlan.brick.entities.PowerUp;
 
 public class GameScreen implements Screen {
+    private final int PLAYER_WIDTH = 192;
+    private final int PLAYER_HEIGHT = 32;
+    private final int BALL_WIDHT = 32;
+    private final int BALL_HEIGHT = 32;
+
     private final BrickGame game;
 
     private OrthographicCamera camera;
@@ -30,12 +35,12 @@ public class GameScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
-        player = new Player(0, 0);
+        player = new Player(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
         brickController = new BrickController();
-        scoreController = new ScoreController();
-        puController = new PowerUpController(player, scoreController);
         // needs to be called last
-        ball = new Ball(100, 140, player, brickController, scoreController, this);
+        ball = new Ball(100, 140, BALL_WIDHT, BALL_HEIGHT, player, brickController, this);
+        scoreController = new ScoreController(ball);
+        puController = new PowerUpController(player, scoreController);
     }
 
     @Override
@@ -51,9 +56,9 @@ public class GameScreen implements Screen {
         game.getSrenderer().begin(ShapeType.Filled);
 
         // Rendering begins
-        player.render(game.getSrenderer(), player);
+        player.render(game.getSrenderer());
         brickController.render(game.getSrenderer());
-        ball.render(game.getSrenderer(), ball);
+        ball.render(game.getSrenderer());
         puController.render(game.getSrenderer());
         game.getSrenderer().end();
         game.getBatch().begin();
@@ -97,8 +102,6 @@ public class GameScreen implements Screen {
     public void dispose() {
 
     }
-
-
 
     public OrthographicCamera getCamera() {
         return camera;

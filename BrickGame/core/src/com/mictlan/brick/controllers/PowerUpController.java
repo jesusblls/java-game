@@ -7,10 +7,9 @@ import com.mictlan.brick.entities.PowerUp;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-/**
- * Created by josel.garza on 27/12/2017.
- */
 public class PowerUpController {
+    private final int PU_WIDTH = 20;
+    private final int PU_HEIGHT = 20;
 
     private ArrayList<PowerUp> powerUps;
     private Player player;
@@ -40,12 +39,12 @@ public class PowerUpController {
 
     public void render(ShapeRenderer srenderer) {
         for (PowerUp powerUp : powerUps) {
-            powerUp.render(srenderer, powerUp);
+            powerUp.render(srenderer);
         }
     }
 
     public void addPowerUp(int x, int y) {
-        PowerUp powerUp = new PowerUp(x, y);
+        PowerUp powerUp = new PowerUp(x, y, PU_WIDTH, PU_HEIGHT);
         powerUps.add(powerUp);
     }
 

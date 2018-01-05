@@ -4,40 +4,32 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
+import com.mictlan.brick.observer.Observer;
+import com.mictlan.brick.observer.Subject;
 import com.mictlan.brick.screens.GameScreen;
 import com.mictlan.brick.utils.ColorFactory;
 import com.mictlan.brick.controllers.BrickController;
 import com.mictlan.brick.controllers.ScoreController;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 
-public class Ball extends GameObject {
-    private int x;
-    private int y;
-    private int width = 32;
-    private int height = 32;
+public class Ball extends GameObject implements Subject {
+    private ArrayList<Observer> observers;
     private int velX = 250;
     private int velY = 250;
-    Color color;
-    private Rectangle hitbox;
     private Player player;
     private BrickController brickcontroller;
-    private ScoreController scorecontroller;
     private GameScreen gs;
 
-    public Ball(int x, int y, Player player, BrickController brickcontroller, ScoreController scorecontroller, GameScreen gs) {
-        this.x = x;
-        this.y = y;
+    public Ball(int x, int y, int width, int height, Player player, BrickController brickcontroller, GameScreen gs) {
+        super(x, y, width, height);
+        observers = new ArrayList<Observer>();
         color = ColorFactory.getColor(244, 244, 244);
-        hitbox = new Rectangle();
-        hitbox.width = 32;
-        hitbox.height = 32;
-        hitbox.x = x;
-        hitbox.y = y;
         this.player = player;
         this.brickcontroller = brickcontroller;
-        this.scorecontroller = scorecontroller;
         this.gs = gs;
     }
 
@@ -70,7 +62,7 @@ public class Ball extends GameObject {
         if(collidingBrick != null) {
             brickcontroller.remove(collidingBrick);
             velX *= -1;
-            scorecontroller.addPoints(collidingBrick.getPoints());
+            notifyObservers(collidingBrick);
             if(collidingBrick.hasPowerUp()) {
                 gs.spawnPowerUp(collidingBrick);
             }
@@ -88,7 +80,7 @@ public class Ball extends GameObject {
         if(collidingBrick != null) {
             brickcontroller.remove(collidingBrick);
             velY *= -1;
-            scorecontroller.addPoints(collidingBrick.getPoints());
+            notifyObservers(collidingBrick);
             if(collidingBrick.hasPowerUp()) {
                 gs.spawnPowerUp(collidingBrick);
             }
@@ -114,36 +106,19 @@ public class Ball extends GameObject {
     }
 
     @Override
-    public int getX() {
-        return x;
+    public void register(Observer observer) {
+        observers.add(observer);
     }
 
     @Override
-    public int getY() {
-        return y;
+    public void unregister(Observer observer) {
+        observers.remove(observer);
     }
 
     @Override
-    public int getWidth() {
-        return width;
+    public void notifyObservers(GameObject entity) {
+        for (Observer observer : observers) {
+            observer.update(entity);
+        }
     }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-    @Override
-    public Color getColor() {
-        return color;
-    }
-
-    public float getCenterX() {
-        return x + width / 2;
-    }
-
-    public float getCenterY() {
-        return y + height / 2;
-    }
-
 }

@@ -1,6 +1,17 @@
 package com.mictlan.brick.controllers;
 
-public class ScoreController {
+import com.mictlan.brick.entities.Brick;
+import com.mictlan.brick.entities.GameObject;
+import com.mictlan.brick.observer.Observer;
+import com.mictlan.brick.observer.Subject;
+
+public class ScoreController implements Observer {
+    Subject subject;
+
+    public ScoreController (Subject subject) {
+        this.subject = subject;
+        subject.register(this);
+    }
 
     private int score = 0;
 
@@ -12,4 +23,11 @@ public class ScoreController {
         this.score = score + points;
     }
 
+    @Override
+    public void update(GameObject entity) {
+        if (entity instanceof Brick) {
+            addPoints(((Brick) entity).getPoints());
+        }
+
+    }
 }

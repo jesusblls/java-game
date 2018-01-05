@@ -10,6 +10,8 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class BrickController {
+    private final int BRICK_WIDTH = 50;
+    private final int BRICK_HEIGHT = 30;
     int numberOfBricks = 13;
     int rows = 5;
     int gap = 3;
@@ -29,15 +31,12 @@ public class BrickController {
                 int intRand = rand.nextInt(10);
                 if (intRand < 8){
 
-                    brick = new Brick(iniX, iniY, true);
+                    brick = new Brick(iniX, iniY, BRICK_WIDTH, BRICK_HEIGHT, true);
                     Color color = ColorFactory.getColor(70,130,180);
                     brick.setColor(color);
 
                 } else {
-
-                    brick = new Brick(iniX, iniY, false);
-
-
+                    brick = new Brick(iniX, iniY, BRICK_WIDTH, BRICK_HEIGHT, false);
                 }
                 bricks.add(brick);
                 iniX += brick.getWidth() + gap;
@@ -51,7 +50,7 @@ public class BrickController {
 
     public void render(ShapeRenderer srenderer) {
         for (Brick brick : bricks) {
-            brick.render(srenderer, brick);
+            brick.render(srenderer);
         }
     }
 
