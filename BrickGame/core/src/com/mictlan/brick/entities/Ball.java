@@ -63,9 +63,7 @@ public class Ball extends GameObject implements Subject {
             brickcontroller.remove(collidingBrick);
             velX *= -1;
             notifyObservers(collidingBrick);
-            if(collidingBrick.hasPowerUp()) {
-                gs.spawnPowerUp(collidingBrick);
-            }
+
         }
         // Player collision on x
         if (this.hitbox.overlaps(player.getHitbox())){
@@ -81,9 +79,7 @@ public class Ball extends GameObject implements Subject {
             brickcontroller.remove(collidingBrick);
             velY *= -1;
             notifyObservers(collidingBrick);
-            if(collidingBrick.hasPowerUp()) {
-                gs.spawnPowerUp(collidingBrick);
-            }
+
         }
         // Player collision on Y
         if (this.hitbox.overlaps(player.getHitbox())){
@@ -116,9 +112,10 @@ public class Ball extends GameObject implements Subject {
     }
 
     @Override
-    public void notifyObservers(GameObject entity) {
-        for (Observer observer : observers) {
-            observer.update(entity);
+    public void notifyObservers(GameObject gameObject) {
+        for(Observer observer : observers) {
+            observer.update(gameObject);
         }
     }
+
 }

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
+import com.mictlan.brick.observer.Observer;
+import com.mictlan.brick.observer.Subject;
 import com.mictlan.brick.utils.ColorFactory;
 
 public class Player extends GameObject {
@@ -46,5 +48,6 @@ public class Player extends GameObject {
     public float getFriction() {
         return friction;
     }
+
 
 }

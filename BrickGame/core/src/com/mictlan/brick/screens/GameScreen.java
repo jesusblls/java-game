@@ -14,6 +14,7 @@ import com.mictlan.brick.entities.Ball;
 import com.mictlan.brick.entities.Player;
 import com.mictlan.brick.entities.Brick;
 import com.mictlan.brick.entities.PowerUp;
+import com.mictlan.brick.observer.Subject;
 
 public class GameScreen implements Screen {
     private final int PLAYER_WIDTH = 192;
@@ -40,7 +41,7 @@ public class GameScreen implements Screen {
         // needs to be called last
         ball = new Ball(100, 140, BALL_WIDHT, BALL_HEIGHT, player, brickController, this);
         scoreController = new ScoreController(ball);
-        puController = new PowerUpController(player, scoreController);
+        puController = new PowerUpController(ball, player, scoreController);
     }
 
     @Override
@@ -107,7 +108,4 @@ public class GameScreen implements Screen {
         return camera;
     }
 
-    public void spawnPowerUp(Brick brick) {
-        puController.addPowerUp(brick.getX(), brick.getY());
-    }
 }

@@ -1,26 +1,27 @@
 package com.mictlan.brick.controllers;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mictlan.brick.entities.Player;
-import com.mictlan.brick.entities.PowerUp;
-
+import com.mictlan.brick.entities.*;
+import com.mictlan.brick.observer.Observer;
+import com.mictlan.brick.observer.Subject;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class PowerUpController {
+public class PowerUpController implements Observer{
     private final int PU_WIDTH = 20;
     private final int PU_HEIGHT = 20;
-
     private ArrayList<PowerUp> powerUps;
+    private PowerUp powerUp;
+    Subject subject;
     private Player player;
     private ScoreController scoreController;
-    private PowerUp powerUp;
 
-    public PowerUpController(Player player, ScoreController scoreController) {
-
+    public PowerUpController(Subject subject, Player player, ScoreController scoreController) {
         powerUps = new ArrayList<PowerUp>();
         this.player = player;
         this.scoreController = scoreController;
+        this.subject = subject;
+        subject.register(this);
     }
 
     public void update() {
@@ -33,6 +34,7 @@ public class PowerUpController {
                 iter.remove();
                 scoreController.addPoints(200);
             }
+
         }
 
     }
@@ -55,4 +57,17 @@ public class PowerUpController {
     public void remove(PowerUp powerUp) {
         powerUps.remove(powerUp);
     }
+
+    @Override
+    public void update(GameObject entity) {
+        if (entity instanceof Brick) {
+            Brick brick = ((Brick) entity);
+            if(brick.hasPowerUp()) {
+                addPowerUp(brick.getX(), brick.getY());
+            }
+        }
+
+    }
+
+
 }
