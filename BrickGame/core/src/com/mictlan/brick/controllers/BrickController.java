@@ -3,22 +3,27 @@ package com.mictlan.brick.controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mictlan.brick.entities.Brick;
+import com.mictlan.brick.entities.GameObject;
+import com.mictlan.brick.observer.Observer;
+import com.mictlan.brick.observer.Subject;
 import com.mictlan.brick.utils.ColorFactory;
 
 import java.util.Random;
 
 import java.util.ArrayList;
 
-public class BrickController {
+public class BrickController implements Observer {
     private final int BRICK_WIDTH = 50;
     private final int BRICK_HEIGHT = 30;
     int numberOfBricks = 13;
     int rows = 5;
     int gap = 3;
-
+    private Subject subject;
     ArrayList<Brick> bricks;
 
-    public BrickController() {
+    public BrickController(Subject subject) {
+        this.subject = subject;
+        subject.register(this);
         bricks = new ArrayList<Brick>();
         int iniX = 54;
         int iniY = 395;
@@ -49,7 +54,7 @@ public class BrickController {
     }
 
     public void render(ShapeRenderer srenderer) {
-        for (Brick brick : bricks) {
+        for (GameObject brick : bricks) {
             brick.render(srenderer);
         }
     }
@@ -60,5 +65,12 @@ public class BrickController {
 
     public void remove(Brick brick) {
         bricks.remove(brick);
+    }
+
+    @Override
+    public void update(GameObject entity) {
+        if (entity instanceof Brick) {
+            remove((Brick) entity);
+        }
     }
 }

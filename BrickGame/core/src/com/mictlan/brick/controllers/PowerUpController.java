@@ -16,7 +16,7 @@ public class PowerUpController implements Observer{
     private Player player;
     private ScoreController scoreController;
 
-    public PowerUpController(Subject subject, Player player, ScoreController scoreController) {
+    public PowerUpController(Subject subject) {
         powerUps = new ArrayList<PowerUp>();
         this.player = player;
         this.scoreController = scoreController;
@@ -26,15 +26,8 @@ public class PowerUpController implements Observer{
 
     public void update() {
 
-        Iterator<PowerUp> iter = powerUps.iterator();
-        while (iter.hasNext()) {
-            powerUp = iter.next();
+        for (PowerUp powerUp : powerUps) {
             powerUp.update();
-            if (player.getHitbox().overlaps(powerUp.getHitbox())) {
-                iter.remove();
-                scoreController.addPoints(200);
-            }
-
         }
 
     }
@@ -45,7 +38,7 @@ public class PowerUpController implements Observer{
         }
     }
 
-    public void addPowerUp(int x, int y) {
+    public void addPowerUp(float x, float y) {
         PowerUp powerUp = new PowerUp(x, y, PU_WIDTH, PU_HEIGHT);
         powerUps.add(powerUp);
     }
@@ -69,5 +62,7 @@ public class PowerUpController implements Observer{
 
     }
 
-
+    public ArrayList<PowerUp> getPowerUps() {
+        return powerUps;
+    }
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mictlan.brick.BrickGame;
 import com.mictlan.brick.controllers.BrickController;
 import com.badlogic.gdx.math.Rectangle;
+import com.mictlan.brick.controllers.CollisionController;
 import com.mictlan.brick.controllers.PowerUpController;
 import com.mictlan.brick.controllers.ScoreController;
 import com.mictlan.brick.entities.Ball;
@@ -17,10 +18,10 @@ import com.mictlan.brick.entities.PowerUp;
 import com.mictlan.brick.observer.Subject;
 
 public class GameScreen implements Screen {
-    private final int PLAYER_WIDTH = 192;
-    private final int PLAYER_HEIGHT = 32;
-    private final int BALL_WIDHT = 32;
-    private final int BALL_HEIGHT = 32;
+    private final float PLAYER_WIDTH = 192;
+    private final float PLAYER_HEIGHT = 32;
+    private final float BALL_WIDHT = 32;
+    private final float BALL_HEIGHT = 32;
 
     private final BrickGame game;
 
@@ -30,18 +31,24 @@ public class GameScreen implements Screen {
     private ScoreController scoreController;
     private Ball ball;
     private PowerUpController puController;
+    private CollisionController collisionController;
 
     public GameScreen(final BrickGame game) {
         this.game = game;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
-        player = new Player(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
-        brickController = new BrickController();
+        ball = new Ball(200, 140, BALL_WIDHT, BALL_HEIGHT);
+        player = new Player(250, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
+        collisionController = new CollisionController(ball);
+        brickController = new BrickController(collisionController);
         // needs to be called last
-        ball = new Ball(100, 140, BALL_WIDHT, BALL_HEIGHT, player, brickController, this);
-        scoreController = new ScoreController(ball);
-        puController = new PowerUpController(ball, player, scoreController);
+        scoreController = new ScoreController(collisionController);
+        puController = new PowerUpController(collisionController);
+
+        collisionController.setPlayer(player);
+        collisionController.setBricks(brickController.getBricks());
+        collisionController.setPowerUps(puController.getPowerUps());
     }
 
     @Override
@@ -72,6 +79,7 @@ public class GameScreen implements Screen {
         }
         game.getBatch().end();
         // Rendering ends
+
 
         player.update();
         ball.update();

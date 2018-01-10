@@ -9,13 +9,14 @@ import com.mictlan.brick.observer.Subject;
 import com.mictlan.brick.utils.ColorFactory;
 
 public class Player extends GameObject {
-    private int velX = 200;
+    private float velX = 400;
     private float friction = .80F;
 
-    public Player(int x, int y, int width, int height) {
+    public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
         color = ColorFactory.getColor(78, 32, 9);
     }
+
 
     public void update() {
         // Listen for input
